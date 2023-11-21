@@ -1,0 +1,70 @@
+
+PRIMEROS PASOS:
+
+1. Crear los directorios básicos: Domain, Data, UI
+2. En UI creamos nuestra Screen princiap (TasksScreen()) y la ponemos en el Main Activity
+3. En directorio raiz creamos fichero aplication con @HiltAndroidApp. En "manifest" pondremos "name" y nuestra app
+4. En UI creamos class TasksViewModel:ViewModel()
+
+INYECCCION DE DEPENDENCIAS:
+
+1. A nuestro Main ponemos la etiqueta @AndroidEntryPoet
+2. En Main: private val tasksViewModel:TasksViewModel by viewModels() y se lo pasamos a nuestra screen -> TasksScreen(tasksViewModel)
+3. En clase TasksViewModel debemos ponerle @Inject constructor()
+
+PARTE GRÁFICA(SCREEN):
+
+1.  Vamos a TasksScreen y dentro de la función hacemos un Box con un a anchura FillMaxSize.
+2. Creamos una función FabDialog y pondremos un FloatingActionButton con un "on click" dentro y un icono ADD. Esto esto lo centraremos abajo a la derecha y le daremos un padding de 16.dp
+3. MUY IMPORTANTE:: No podremos alinear nuestro FAB desde el método, deberemos hacerlo como parámetro de la función que llamemos dentro del Box. Para ello la función la llamaremos así: FabDialog(Modifier.align(Alignment.BottomEnd).padding(16.dp))
+   y el método tendrá como parámetro (modifier = Modifier)
+4. En el BOX que hemos creado dentro de TasksScreen llamaremos a las funciones que vayamos creando:
+
+-> Para agregar el dialogo:
+        AddTasksDialog(true, onDismiss = {}, onTaskAdded = {})
+
+-> Para agrear el FAB:
+        FabDialog(Modifier.align(Alignment.BottomEnd).padding(16.dp))
+
+
+CREACION DE DIALOG:
+
+1. Creamos funcion AddTaskDialog que tiene los siguientes parametros obligatorios: ( show:Boolean,onDismiss:()->Unit, onTaskAdded(String)->Unit )
+
+2. Creamos variable myTask que será un mutableStateOf de String vacio:
+
+        var myTask by remember { mutableStateOf("") }
+
+3. Construimos un condicional indicando que si el boleano "show" es true se creará el dialogo, que contrendrá el titulo y un TextField donde escribiremos lo que queramos. Vamos a meter también un botón para realizar la
+   acción de agregar la tarea:
+
+     if(show){
+         Dialog(onDismissRequest = {onDismiss}){
+             Column (Modifier
+                 .fillMaxWidth()
+                 .background(Color.White)
+                 .padding(16.dp)) {
+                 Text(text = "Agrega tu tarea", fontSize = 16.sp, modifier = Modifier.align(Alignment.CenterHorizontally), fontWeight = FontWeight.Bold)
+                 Spacer(modifier = Modifier.size(16.dp))
+                 TextField(value = myTask, onValueChange = {myTask = it})
+                 Spacer(modifier = Modifier.size(16.dp))
+                 Button(onClick = {
+                     onTaskAdded(String)
+                 }, modifier = Modifier.fillMaxWidth()){
+                     Text(text = "Agrega tarea")
+                 }
+
+         }
+         }
+     }
+
+
+AÑADIR Y CONFIGURAR DIALOGO:
+
+1. Agregamos las siguientes librerias al proyecto:
+
+ //LIVEDATA
+    implementation("androidx.compose.runtime:runtime-livedata:1.2.1")
+    implementation("androidx.lifecycle:lyfecycle-runtime-ktx:2.3.1")
+
+
