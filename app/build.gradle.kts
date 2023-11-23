@@ -82,7 +82,7 @@ dependencies {
 
     //LIVEDATA
     implementation("androidx.compose.runtime:runtime-livedata:1.2.1")
-    implementation("androidx.lifecycle:lyfecycle-runtime-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
 
     //RETROFIT
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

@@ -2,8 +2,8 @@
 PRIMEROS PASOS:
 
 1. Crear los directorios básicos: Domain, Data, UI
-2. En UI creamos nuestra Screen princiap (TasksScreen()) y la ponemos en el Main Activity
-3. En directorio raiz creamos fichero aplication con @HiltAndroidApp. En "manifest" pondremos "name" y nuestra app
+2. En UI creamos nuestra Screen princial (TasksScreen()) y la ponemos en el Main Activity
+3. En directorio raiz creamos fichero aplication con @HiltAndroidApp. En "manifest" pondremos "name" y nuestra app, además de solicitar permisos de internet.
 4. En UI creamos class TasksViewModel:ViewModel()
 
 INYECCCION DE DEPENDENCIAS:
@@ -65,6 +65,27 @@ AÑADIR Y CONFIGURAR DIALOGO:
 
  //LIVEDATA
     implementation("androidx.compose.runtime:runtime-livedata:1.2.1")
+
+2. En TasksViewModel creamos un live data:
+
+        private val _showDialog = MutableLiveData<Boolean>()
+        val showDialog : LiveData<Boolean> = _showDialog
+
+3. En TasksScreen creamos nuestro observador que será lo que conecte la Screen con el ViewModel:
+
+    val showDialog:Boolean by tasksViewModel.showDialog.observeAsState(true)
+
+
+
+
+
+
+
+
+
+
+
+
     implementation("androidx.lifecycle:lyfecycle-runtime-ktx:2.3.1")
 
 
