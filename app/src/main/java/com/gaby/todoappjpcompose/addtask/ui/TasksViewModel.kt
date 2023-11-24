@@ -1,7 +1,7 @@
 package com.gaby.todoappjpcompose.addtask.ui
 
-import android.util.Log
-import androidx.compose.runtime.*
+
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,13 +12,13 @@ import javax.inject.Inject
 @HiltViewModel
 class TasksViewModel @Inject constructor() : ViewModel() {
 
-    //CREACION LIVE DATA
+    //CREACION LIVE DATA PARA ENSEÑAR Y OCULTAR DIALOGO DE CREACION DE TAREA
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog: LiveData<Boolean> = _showDialog
 
-    private val _tasks = mutableStateListOf<TaskModel>()
-    val task:List<TaskModel> = _tasks
 
+    private val _tasks = mutableStateListOf<TaskModel>()
+    val task: List<TaskModel> = _tasks
 
 
     fun onDialogClose() {
@@ -35,7 +35,20 @@ class TasksViewModel @Inject constructor() : ViewModel() {
     }
 
     fun onCheckBox(taskModel: TaskModel) {
+        //Buscamos el index
+        val index = _tasks.indexOf(taskModel)
+        //Accedemos a la posicion y le indicamos que el elemento es igual pero a la inversa
+        _tasks[index] = _tasks[index].let {
+            it.copy(selected = !it.selected)
+        }
+    }
+
+    fun onItemRemove(taskModel: TaskModel) {
+
+        val task = _tasks.find { it.id == taskModel.id }
+        _tasks.remove(task)
 
     }
+
 
 }
